@@ -4,16 +4,122 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Introdução ao Vue JS</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
+    <script src="http://unpkg.com/vue"></script>
 </head>
 <body>
     
+    <div id="app">
+
+        <jon-titulo v-bind:titulo="meuTitulo">33</jon-titulo>
+        <input type="text" v-model="meuTitulo">
+        <div class="row"></div>
+
+        <jon-tabela v-bind:titulos="['Titulo','Descrição', 'Site']" v-bind:registros="registros"></jon-tabela>
+        
+        <p v-once>{{meuTitulo}}</p> 
+        <p v-html="html"></p>
+        <p>{{ 25.4293384293| TrataValor}}</p> <!-- converte strings -->
+
+        <ul>
+            <li v-for="registro in registros">
+                {{registro.titulo}} - {{registro.descricao}} - {{registro.link}} - {{registro.valor | TrataValor}}
+            </li>
+
+        </ul>
+
+        <p>Total:(methods): ({{totalValorMetodo() | TrataValor }}) -{{contaMethods}}</p>
+        <p>Total:(Computed): ({{totalValorComputed | TrataValor }}) -{{contaComputed}}</p>  <!-- maior desempenho -->
+
+        <p>
+            <input type="text" v-model="nome" placeholder="Nome">
+        </p>
+        
+        <p>Alterações: {{contaAlteracoes}}</p>
 
 
 
+contaAlteracoes
+    </div>
 
+    <script type="text/javascript">
 
+    Vue.component('jon-titulo',{
+        props:['titulo'],
+        template:'<h2>{{ titulo }}</h2>'
+
+    });
+    Vue.component('jon-tabela',{
+        props:['titulos','registros'],
+        template:'<table style="width:80%">'+
+            '<thead>'+
+                '<tr>'+
+                '<th v-for="titulo in titulos">{{titulo}}</th>'+
+                '</tr>'+
+            '</thead>'+
+            '<tbody>'+
+                '<tr v-for="registro in registros">'+
+                '<td v-for="item in registro">{{item}}</td>'+
+                '</tr>'+
+            '</tbody>'+
+        '</table>'
+});
+
+        var app = new Vue({
+            el:"#app",
+            data:{
+                meuTitulo:'Este é o novo título',
+                registros:[
+                    {titulo:'Título1', descricao:'descricao1',link:'link1', valor:23.24124},
+                    {titulo:'Título2', descricao:'descricao2',link:'link2', valor:33.2412},
+                    {titulo:'Título3', descricao:'descricao3',link:'link3', valor:73.2412}
+                    ],
+                html:'<a href="#">link de alguma coisa</a>',
+                contaMethods:0,
+                contaComputed:0,
+                nome:'',
+                contaAlteracoes:0
+            
+        },
+            filters:{
+                TrataValor: function(valor){
+                    return ('RS '+(valor).toFixed(2)).replace('.',',');
+                }
+            },
+
+            methods:{
+                totalValorMetodo: function(){
+                    this.contaMethods++;
+                    var total = 0;
+                    for(item of this.registros){
+                        total += item.valor;
+                    }
+                    return total;
+                }
+
+            },
+            computed:{
+                totalValorComputed: function(){
+                    this.contaComputed ++;
+                    var total = 0;
+                    for(item of this.registros){
+                        total += item.valor;
+                    }
+                    return total;
+                }
+
+            },
+            // observadores
+            whath:{
+                nome:function(valor){
+                    this.contaAlteracoes ++;
+
+                }
+             
+            }
+        
+        
+        });
+        
+    </script>
 </body>
 </html>

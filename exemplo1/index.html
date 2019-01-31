@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Introdução ao Vue JS</title>
+    <script src="http://unpkg.com/vue"></script>
+</head>
+<body>
+    
+    <div id="app">
+        {{msg}}+ {{msg2}} = 5
+        <p v-bind:title="variavel">Teste com Title</p>
+        <p v-if="condicao">Teste com IF</p>
+        <p v-for="registro in registros">{{registro.titulo}}</p>
+        <button v-if="!clicou"v-on:click ="usuarioClicou">Salvar</button>
+        <button v-if="clicou" v-on:click ="usuarioClicou">Aguarde...</button>
+        <input type="text" v-model="usuario.nome">
+        <br>
+        <p>Nome:{{usuario.nome}}</p>
+
+
+
+    </div>
+
+
+    <script type="text/javascript">
+        var app = new Vue({
+            el:"#app",
+            data:{
+                msg: 2,
+                msg2: 3,
+                variavel: "terte de manipulação de aributo do html",
+                condicao: 5 > 3,
+                registros:[
+                    {titulo:'registro1'},
+                    {titulo:'registro2'},
+                    {titulo:'registro3'},
+                    {titulo:'registro4'}
+            ],
+                clicou:true,
+                usuario:{nome:""}
+
+
+            },
+            methods:{
+                usuarioClicou: function(){
+                    this.clicou = !this.clicou;
+                }
+            }
+        });
+        
+
+    </script>
+</body>
+</html>
