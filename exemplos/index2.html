@@ -36,9 +36,6 @@
         
         <p>Alterações: {{contaAlteracoes}}</p>
 
-
-
-contaAlteracoes
     </div>
 
     <script type="text/javascript">
@@ -88,7 +85,7 @@ contaAlteracoes
 
             methods:{
                 totalValorMetodo: function(){
-                    this.contaMethods++;
+                   //this.contaMethods++;
                     var total = 0;
                     for(item of this.registros){
                         total += item.valor;
@@ -109,9 +106,10 @@ contaAlteracoes
 
             },
             // observadores
-            whath:{
+            watch:{
                 nome:function(valor){
                     this.contaAlteracoes ++;
+                    this.nome = valor.toUpperCase();
 
                 }
              
